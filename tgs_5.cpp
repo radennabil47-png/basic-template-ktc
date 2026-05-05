@@ -3,13 +3,15 @@ using namespace std;
 
 struct Node {
 	int data;
-	Node * next;
+	Node *next;
+	Node *prev;
 }; 
 
 void tambahAkhir(Node *& head, int nilai) {
 	Node* baru = new Node();
 	baru->data = nilai;
 	baru->next = NULL;
+	baru->prev = NULL;
 	
 	if (head == NULL) {
 		head = baru;
@@ -21,40 +23,67 @@ void tambahAkhir(Node *& head, int nilai) {
 			temp = temp->next;
 		} 
 		temp->next = baru;
+		baru->prev = temp;
 	}
 }
 
 void tampil(Node * head) {
     Node * temp = head;
+    
+    cout << "\nTampil Maju "<< endl;
 
     while (temp != NULL) {
-        cout << temp->data << " -> ";
+        cout << temp->data << " <-> ";
         temp = temp->next;
     }
     cout << "NULL" << endl;
 }
 
+
+void tampilMundur(Node* head) {
+
+    if (head == NULL) {
+        return;
+    }
+    Node* temp = head;
+
+    while (temp->next != NULL) {
+        temp = temp->next;
+    }
+
+    cout << "\nTampil Mundur " << endl;
+
+    while (temp != NULL) {
+        cout << temp->data << " <-> ";
+        temp = temp->prev;
+         }
+
+    cout << "NULL" << endl;
+}
 int main() {
 	Node * head = NULL;
 	int n, nilai;
 	
-	cout << "Masukan Jumlah Data:";
+	cout << "Masukan Jumlah Data :";
 	cin >> n;
 	
 	for (int i = 1; i <= n; i++) {
-		cout << "Masukan Data ke- " << i << ":";
+		cout << "Masukan Data ke- " << i << " : ";
 		cin >> nilai;
+		
 		tambahAkhir(head, nilai);
 	}
 	
 	int dataBaru;
-	cout << "\nMasukan Data Yang Ditambahkan Diakhir:";
+	cout << "\nMasukan Data Yang Ditambahkan Diakhir :";
 	cin >> dataBaru;
 	
 	tambahAkhir(head, dataBaru);
 	
-	cout << "\nData Setelah Ditambah Diakhir:\n";
+	cout << "\nData Setelah Ditambah Diakhir :\n";
+	
 	tampil(head);
+	tampilMundur(head);
 	
 	return 0;
 }
